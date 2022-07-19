@@ -7,13 +7,13 @@ import postRoutes from "./Routes/postRoutes.js";
 dotenv.config();
 
 const app = express();
-//Routes
-app.use("/posts", postRoutes);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+//Routes
+app.use("/posts", postRoutes);
 //MONGODB url
 const dbUrl = process.env.CONNECTION_URL;
 //port number
