@@ -43,3 +43,18 @@ export const updatePost = async (req, res) => {
     res.status(404).send("Post updation Failed");
   }
 };
+//Delete Post Controller
+export const deletePost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send("No Post available with this id");
+  }
+  try {
+    await PostMessage.findByIdAndRemove(id);
+
+    res.status(200).json({ message: "Post Deleted Successfully" });
+  } catch (error) {
+    res.status(404).send("Post Deletion Failed");
+  }
+};
