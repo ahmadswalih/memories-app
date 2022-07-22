@@ -3,6 +3,7 @@ export default (posts = [], action) => {
     case "Delete":
       return posts.filter((post) => post._id !== action.payload);
     case "Update":
+    case "Like":
       return posts.map((post) =>
         post._id === action.payload._id ? action.payload : post
       );

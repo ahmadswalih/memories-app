@@ -58,3 +58,22 @@ export const deletePost = async (req, res) => {
     res.status(404).send("Post Deletion Failed");
   }
 };
+//Like Post Controller
+export const likePost = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send("No Post available with this id");
+  }
+  try {
+    const post = await PostMessage.findById(id);
+    const updatedPost = await PostMessage.findByIdAndUpdate(
+      id,
+      { likeCount: post.likeCount + 1 },
+      { new: true }
+    );
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(404).send("Adding like Failed");
+  }
+};

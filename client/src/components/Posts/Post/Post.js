@@ -13,7 +13,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { deletePost } from "../../../actions/posts";
+import { deletePost, likePost } from "../../../actions/posts";
 
 const Post = ({ post, setCurrentId, currentId }) => {
   const {
@@ -68,10 +68,14 @@ const Post = ({ post, setCurrentId, currentId }) => {
         </Typography>
       </CardContent>
       <CardActions className={cardActions}>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => dispatch(likePost(post._id))}
+        >
           <ThumbUpAltIcon fontSize="small" />
+          <span>{post.likeCount} </span>
           Like
-          {post.likeCount}
         </Button>
         <Button
           size="small"
