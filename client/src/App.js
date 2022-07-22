@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   AppBar,
@@ -17,6 +17,7 @@ import { getPosts } from "./actions/posts";
 const App = () => {
   const { appBar, heading, image } = useStyles();
   const dispatch = useDispatch();
+  const [currentId, setCurrentId] = useState(null);
   useEffect(() => {
     dispatch(getPosts());
   }, [dispatch]);
@@ -41,10 +42,10 @@ const App = () => {
               spacing={3}
             >
               <Grid item xs={12} sm={7}>
-                <Posts />
+                <Posts currentId={currentId} setCurrentId={setCurrentId} />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Forms />
+                <Forms currentId={currentId} setCurrentId={setCurrentId} />
               </Grid>
             </Grid>
           </Container>

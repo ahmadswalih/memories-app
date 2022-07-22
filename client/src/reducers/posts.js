@@ -1,5 +1,9 @@
 export default (posts = [], action) => {
   switch (action.type) {
+    case "Update":
+      return posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
     case "Fetch_All":
       return action.payload;
     case "Create":

@@ -12,7 +12,8 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
-const Post = ({ post }) => {
+
+const Post = ({ post, setCurrentId, currentId }) => {
   const {
     media,
     border,
@@ -32,6 +33,7 @@ const Post = ({ post }) => {
         className={media}
         image={post.selectedFile}
         title={post.title}
+        component="div"
       />
 
       <div className={overlay}>
@@ -41,7 +43,11 @@ const Post = ({ post }) => {
         </Typography>
       </div>
       <div className={overlay2}>
-        <Button style={{ color: "white" }} size="small" onClick={() => {}}>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          onClick={() => setCurrentId(post._id)}
+        >
           <MoreHorizIcon fontSize="default" />
         </Button>
       </div>
@@ -50,8 +56,11 @@ const Post = ({ post }) => {
           {post.tags.map((tag) => `#${tag} `)}
         </Typography>
       </div>
+      <Typography className={title} variant="h5" gutterBottom>
+        {post.title}
+      </Typography>
       <CardContent>
-        <Typography className={title} variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           {post.message}
         </Typography>
       </CardContent>
@@ -66,7 +75,6 @@ const Post = ({ post }) => {
           Delete
         </Button>
       </CardActions>
-      {console.log(post.selectedFile)}
     </Card>
   );
 };

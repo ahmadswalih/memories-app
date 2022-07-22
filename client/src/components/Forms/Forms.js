@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "./Styles";
 import { Paper, Typography, Button, TextField } from "@mui/material";
 import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
+import { useSelector } from "react-redux";
 
-const Forms = () => {
+const Forms = ({ currentId, setCurrentId }) => {
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
+
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -17,11 +22,33 @@ const Forms = () => {
   const { paper, form, fileInput, buttonSubmit, root } = useStyles();
   const dispatch = useDispatch();
 
+  //To Populate , if the users has a form value in it
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
+  //HandleFormSubmit
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
+    clear();
   };
-  const clear = () => {};
+  //ClearForm Function
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
   return (
     <Paper className={paper}>
       <form
@@ -30,7 +57,9 @@ const Forms = () => {
         noValidate
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Create a Memory</Typography>
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Create"} a Memory
+        </Typography>
         <TextField
           name="creator"
           value={postData.creator}
