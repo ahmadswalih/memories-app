@@ -13,9 +13,11 @@ import Forms from "./components/Forms/Forms";
 import useStyles from "./Styles";
 import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/posts";
+import { useTheme } from "@emotion/react";
 
 const App = () => {
-  const { appBar, heading, image } = useStyles();
+  const theme = useTheme();
+  const { appBar, heading, image, mainContainer } = useStyles(theme);
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(null);
   useEffect(() => {
@@ -36,6 +38,7 @@ const App = () => {
         <Grow in>
           <Container>
             <Grid
+              className={mainContainer}
               container
               justify="space-between"
               alignItems="stretch"

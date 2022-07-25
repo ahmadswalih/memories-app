@@ -14,6 +14,9 @@ app.use(cors());
 
 //Routes
 app.use("/posts", postRoutes);
+app.get("/", (req, res) => {
+  res.send("Welcome to Memories api");
+});
 //MONGODB url
 const dbUrl = process.env.CONNECTION_URL;
 //port number
