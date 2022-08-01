@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  AppBar,
-  Typography,
-  Grow,
-  Grid,
-  Stack,
-} from "@mui/material";
-import memories from "./img/memories.png";
+import { Container, Grow, Grid } from "@mui/material";
 import Posts from "./components/Posts/Posts";
 import Forms from "./components/Forms/Forms";
 import useStyles from "./Styles";
 import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/posts";
 import { useTheme } from "@emotion/react";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./Pages/Home/Home";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import NotFound from "./Pages/NotFound/NotFound";
 
 const App = () => {
   const theme = useTheme();
-  const { appBar, heading, image, mainContainer } = useStyles(theme);
+  const { mainContainer } = useStyles(theme);
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(null);
   useEffect(() => {
@@ -26,33 +22,13 @@ const App = () => {
   return (
     <div>
       <Container maxWidth="large">
-        <AppBar className={appBar} position="static" color="inherit">
-          <Stack display="flex" direction="row">
-            <Typography className={heading} variant="h2" align="center">
-              Memories
-            </Typography>
-            <img className={image} src={memories} alt="memories" height="60" />
-          </Stack>
-        </AppBar>
-
-        <Grow in>
-          <Container>
-            <Grid
-              className={mainContainer}
-              container
-              justify="space-between"
-              alignItems="stretch"
-              spacing={3}
-            >
-              <Grid item xs={12} sm={7}>
-                <Posts currentId={currentId} setCurrentId={setCurrentId} />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Forms currentId={currentId} setCurrentId={setCurrentId} />
-              </Grid>
-            </Grid>
-          </Container>
-        </Grow>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} exact />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
       </Container>
     </div>
   );
